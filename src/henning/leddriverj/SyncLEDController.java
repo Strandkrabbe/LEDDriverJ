@@ -98,7 +98,7 @@ public class SyncLEDController extends LEDController {
 				int[] col = rgb[Y][X];
 				col = this.colorMod(col);
 				for (int CL = 0;CL < 3;CL++)	{
-					grball[C++] = col[COLOR_MAP[CL]];
+					grball[C++] = col[COLOR_MAP[CL]] == 0xff ? 0xfe : col[COLOR_MAP[CL]];
 				}
 			}
 		}

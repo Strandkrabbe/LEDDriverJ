@@ -41,7 +41,7 @@ public class Config {
 		p.setProperty("command_return_byte", "false");
 		p.setProperty("py_port", "COM4");
 		File f = new File(DEFAULT_CONFIG);
-		if (!f.exists())	{
+		if (f.exists())	{
 			p.load(new FileReader(f));
 			Log.info("Properties loaded", "Config");
 		}	else	{

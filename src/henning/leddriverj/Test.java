@@ -8,17 +8,16 @@ public class Test {
 	public static void main(String[] args) throws IOException, InterruptedException	{
 		@SuppressWarnings("resource")
 		BoardController c = new BoardController(LEDController.DEFAULT_WIDTH, LEDController.DEFAULT_HIEGHT);
+		// ** Settings
+		c.getController().setAlpha(3);
+		c.getController().useBrightnessMod(true);
+		c.getController().setIntensity(1.0f);
+		// **
 		Random r = new Random();
-		int l = 0;
 		while (true)	{
 			c.setColors(generateRandom(r));
 			c.update();
 			Thread.sleep(200);
-			l++;
-			if ((l/10) % 2 == 0)
-				c.getController().setIntensity(1.5f);
-			else
-				c.getController().setIntensity(1.0f);
 		}
 	}
 	private static int[][][] generateRandom(Random r)	{
@@ -33,7 +32,7 @@ public class Test {
 	private static int[] randomColor(Random r)	{
 		int[] color = new int[3];
 		for (int C = 0;C < 3;C++)	{
-			int i = r.nextInt(4) * 64;
+			int i = r.nextInt(255);
 			color[C] = i;
 		}
 		return color;

@@ -5,6 +5,7 @@ import sys
 def initSoc():
 	s1 = socket.socket(socket.AF_INET6,socket.SOCK_STREAM)
 	s1.bind(("::0",22444))
+	s1.listen(1)
 	return s1
 
 def initSerial():

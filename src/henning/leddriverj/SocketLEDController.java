@@ -29,7 +29,7 @@ public class SocketLEDController extends LEDController {
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {}
-		this.py = Runtime.getRuntime().exec("./serialsoc.py " + Config.getInstance().getPyPort());
+		this.py = Runtime.getRuntime().exec("python ./serialsoc.py " + Config.getInstance().getPyPort());
 		this.soc = new Socket(ADDR, PORT);
 		this.os = soc.getOutputStream();
 	}
@@ -67,7 +67,7 @@ public class SocketLEDController extends LEDController {
 				int[] col = rgb[Y][X];
 				col = this.colorMod(col);
 				for (int CL = 0;CL < 3;CL++)	{
-					grball[C++] = col[COLOR_MAP[CL]];
+					grball[C++] = col[COLOR_MAP[CL]] == 0xff ? 0xfe : col[COLOR_MAP[CL]];
 				}
 			}
 		}
