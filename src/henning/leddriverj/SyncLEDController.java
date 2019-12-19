@@ -15,7 +15,7 @@ public class SyncLEDController extends LEDController {
 	private Serial serialDebug;
 	private boolean use_return;
 	
-	public SyncLEDController(int width,int height) throws IOException	{
+	SyncLEDController(int width,int height) throws IOException	{
 		super(width, height);
 		Config c = Config.getInstance();
 		this.use_return = c.useCommandReturnByte();

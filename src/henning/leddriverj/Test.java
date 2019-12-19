@@ -7,12 +7,18 @@ public class Test {
 
 	public static void main(String[] args) throws IOException, InterruptedException	{
 		@SuppressWarnings("resource")
-		LEDController c = new SocketLEDController(LEDController.DEFAULT_WIDTH, LEDController.DEFAULT_HIEGHT);
+		BoardController c = new BoardController(LEDController.DEFAULT_WIDTH, LEDController.DEFAULT_HIEGHT);
 		Random r = new Random();
+		int l = 0;
 		while (true)	{
-			c.setRGB(generateRandom(r));
+			c.setColors(generateRandom(r));
 			c.update();
 			Thread.sleep(200);
+			l++;
+			if ((l/10) % 2 == 0)
+				c.getController().setIntensity(1.5f);
+			else
+				c.getController().setIntensity(1.0f);
 		}
 	}
 	private static int[][][] generateRandom(Random r)	{

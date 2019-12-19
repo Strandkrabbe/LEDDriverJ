@@ -19,7 +19,7 @@ public class SocketLEDController extends LEDController {
 	private OutputStream os;
 	private Process py;
 	
-	public SocketLEDController(int width,int height) throws IOException	{
+	SocketLEDController(int width,int height) throws IOException	{
 		super(width,height);
 		start();
 	}

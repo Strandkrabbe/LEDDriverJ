@@ -102,6 +102,10 @@ public class BoardController implements Closeable {
 		this.addColor(x, y, new int[] {r,g,b});
 	}
 	
+	public LEDController getController()	{
+		return this.backend;
+	}
+	
 	@Override
 	public void close() throws IOException {
 		if (this.backend != null)
