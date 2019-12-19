@@ -12,6 +12,9 @@ public abstract class LEDController implements Closeable {
 	protected int[][][] rgb;
 	private final int width;
 	private final int height;
+	private boolean enableColorMods = false;
+	private boolean useBrigthnessMod = false;
+	private float[] intensity_mods = new float[] {1.0f,1.0f,1.0f};
 	
 	public LEDController(int width,int height) throws IOException	{
 		this.width = width;
@@ -35,6 +38,35 @@ public abstract class LEDController implements Closeable {
 	 */
 	public abstract void setAlpha(int alphaDiv);
 	protected abstract void writeRGB(int[][][] rgb);
+	protected int[] colorMod(int[] color)	{
+		if (!enableColorMods)
+			return color;
+		int[] ncolor = color.clone();
+		for (int C = 0;C < 3;C++)	{
+			ncolor[C] -= 128;
+			ncolor[C] = (int) (ncolor[C] * intensity_mods[C]);
+			if (ncolor[C] < -128)	{
+				ncolor[C] = -128;
+			}
+			if (ncolor[C] > 127)	{
+				ncolor[C] = 127;
+			}
+			ncolor[C] += 128;
+		}
+		if (useBrigthnessMod)	{
+			int max = ncolor[0];
+			if (ncolor[1] > max)
+				max = ncolor[1];
+			if (ncolor[2] > max)
+				max = ncolor[2];
+			float f = ncolor[0] + ncolor[1] + ncolor[2];
+			f = ((float)max)/f;
+			ncolor[0] = (int) (f*ncolor[0]);
+			ncolor[1] = (int) (f*ncolor[1]);
+			ncolor[2] = (int) (f*ncolor[2]);
+		}
+		return ncolor;
+	}
 	
 	/**
 	 * Will set all bytes in the buffer to the given ones. Format: [y][x][c(0-2)]
@@ -79,6 +111,22 @@ public abstract class LEDController implements Closeable {
 	}
 	public int getTotalSize()	{
 		return this.width * this.height;
+	}
+	
+	public void disableColorMods()	{
+		this.enableColorMods = false;
+	}
+	public void setIntensity(float[] i)	{
+		this.enableColorMods = true;
+		this.intensity_mods = i;
+	}	
+	public void setIntensity(float i)	{
+		this.setIntensity(new float[] {i,i,i});
+	}
+	public void useBrightnessMod(boolean en)	{
+		if (en)
+			this.enableColorMods = true;
+		this.useBrigthnessMod = en;
 	}
 	
 }

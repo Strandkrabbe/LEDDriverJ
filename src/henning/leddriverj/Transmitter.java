@@ -9,6 +9,7 @@ import com.pi4j.io.serial.SerialFactory;
 
 import henning.leddriverj.util.Log;
 
+@Deprecated
 public class Transmitter implements Closeable {
 	
 	private Serial serial;

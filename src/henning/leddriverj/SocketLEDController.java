@@ -64,8 +64,10 @@ public class SocketLEDController extends LEDController {
 		int C = 0;
 		for (int Y = 0;Y < rgb.length;Y++)	{
 			for (int X = 0;X < rgb[0].length;X++)	{
+				int[] col = rgb[Y][X];
+				col = this.colorMod(col);
 				for (int CL = 0;CL < 3;CL++)	{
-					grball[C++] = rgb[Y][X][COLOR_MAP[CL]];
+					grball[C++] = col[COLOR_MAP[CL]];
 				}
 			}
 		}
@@ -84,8 +86,14 @@ public class SocketLEDController extends LEDController {
 		} catch (IOException e) {
 			Log.error(e);
 		}
-		if (py.isAlive())
+		Log.debug("Awaiting py termination by socket close...", "SLED");
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {}
+		if (py.isAlive())	{
 			py.destroy();
+			Log.debug("Py not terminated. Forced", "SLED");
+		}
 	}
 	@Override
 	public void clear() {
