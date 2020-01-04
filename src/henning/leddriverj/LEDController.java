@@ -6,7 +6,8 @@ import java.io.IOException;
 public abstract class LEDController implements Closeable {
 	// Implement sync and async controller
 	
-	public static final int DEFAULT_WIDTH = 17;
+	
+	public static final int DEFAULT_WIDTH = 18;
 	public static final int DEFAULT_HIEGHT = 10;
 	
 	protected int[][][] rgb;

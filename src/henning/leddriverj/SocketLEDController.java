@@ -25,7 +25,8 @@ public class SocketLEDController extends LEDController {
 	}
 	private void start() throws IOException	{
 		InputStream i = this.getClass().getResourceAsStream("/henning/leddriverj/py/serialsoc.py");
-		Files.copy(i, new File("./serialsoc.py").toPath(), StandardCopyOption.REPLACE_EXISTING);
+		if (i != null)
+			Files.copy(i, new File("./serialsoc.py").toPath(), StandardCopyOption.REPLACE_EXISTING);
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {}
