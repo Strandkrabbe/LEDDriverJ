@@ -81,7 +81,9 @@ public class FrameLEDController extends LEDController {
 				for (int Y = 0;Y < s.length;Y++)	{
 					for (int X = 0;X < s[Y].length;X++)	{
 						for (int C = 0;C < 3;C++)	{
-							this.state[Y][X][C] = s[Y][X][C]; 
+							this.state[Y][X][C] = s[Y][X][C];
+							float mult = ((float)(255 - this.state[Y][X][C]))/255 + 1;
+							this.state[Y][X][C] *= mult;
 						}
 					}
 				}
