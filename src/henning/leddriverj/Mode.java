@@ -2,6 +2,6 @@ package henning.leddriverj;
 
 public enum Mode {
 	
-	MODE_RPI,MODE_PY;
+	MODE_RPI,MODE_PY,VIRTUAL;
 	
 }

@@ -3,18 +3,27 @@ package henning.leddriverj;
 import java.io.Closeable;
 import java.io.IOException;
 
+import henning.leddriverj.util.Log;
+
 public class BoardController implements Closeable {
 	
 	private LEDController backend;
 	private int[] back = new int[] {0,0,0};
 	
 	public BoardController(Mode m,int width,int height) throws IOException	{
-		if (m == Mode.MODE_PY)	{
-			backend = new SocketLEDController(width, height);
-		} else if (m == Mode.MODE_RPI)	{
-			backend = new SyncLEDController(width, height);
-		} else {
-			throw new IllegalArgumentException("Invalid Mode for LEDController");
+		try	{
+			if (m == Mode.MODE_PY)	{
+				backend = new SocketLEDController(width, height);
+			} else if (m == Mode.MODE_RPI)	{
+				backend = new SyncLEDController(width, height);
+			} else if (m == Mode.VIRTUAL)	{
+				backend = new FrameLEDController(width,height);
+			} else {
+				throw new IllegalArgumentException("Invalid Mode for LEDController");
+			}
+		}	catch (IOException ex)	{
+			this.backend = new FrameLEDController(width, height);
+			Log.warn("Failed to connect to Baord using virtual board instead");
 		}
 	}
 	public BoardController(int width,int heigth) throws IOException	{
