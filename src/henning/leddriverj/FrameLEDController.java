@@ -15,7 +15,7 @@ import henning.leddriverj.util.Log;
 public class FrameLEDController extends LEDController {
 
 	private static final int BOX_SIZE = 25;
-	private static final int BOX_SPACE = 2;
+	private static final int BOX_SPACE = 3;
 	
 	private DrawingPanel dp;
 	private JFrame frame;
@@ -55,7 +55,7 @@ public class FrameLEDController extends LEDController {
 			Dimension d = new Dimension(panel_w, panel_h);
 			this.setMinimumSize(d);
 			this.setPreferredSize(d);
-			this.setMaximumSize(d);
+			this.setMaximumSize(new Dimension(Short.MAX_VALUE, Short.MAX_VALUE));
 			this.setForeground(new Color(255,255,255));
 			this.setBackground(new Color(0,0,0));
 		}
@@ -64,13 +64,19 @@ public class FrameLEDController extends LEDController {
 		public void paint(Graphics g) {
 			synchronized (this) {
 				super.paint(g);
+				int wcount = FrameLEDController.this.getWidth();
+				int hcount = FrameLEDController.this.getHeight();
+				int w = this.getWidth();
+				int h = this.getHeight();
+				int blockw = (w - BOX_SPACE*(wcount-1))/wcount;
+				int blockh = (h - BOX_SPACE*(hcount-1))/hcount;
 				for (int Y = 0;Y < this.state.length;Y++)	{
 					for (int X = 0;X < this.state[Y].length;X++)	{
-						int cx = (BOX_SIZE+BOX_SPACE)*X;
-						int cy = (BOX_SIZE+BOX_SPACE)*Y;
+						int cx = (blockw+BOX_SPACE)*X;
+						int cy = (blockh+BOX_SPACE)*Y;
 						Color cc = new Color(this.state[Y][X][0], this.state[Y][X][1], this.state[Y][X][2]);
 						g.setColor(cc);
-						g.fillRect(cx, cy, BOX_SIZE, BOX_SIZE);
+						g.fillRect(cx, cy, blockw, blockh);
 					}
 				}
 			}
