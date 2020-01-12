@@ -4,22 +4,33 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Queue;
+import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import henning.leddriverj.input.InputProvider;
 import henning.leddriverj.util.Log;
 
-public class FrameLEDController extends LEDController {
+public class FrameLEDController extends LEDController implements InputProvider {
 
 	private static final int BOX_SIZE = 25;
 	private static final int BOX_SPACE = 3;
+	private static final int MAX_KEY_BUFFER = 64;
 	
 	private DrawingPanel dp;
 	private JFrame frame;
 	private boolean alphaMsg = false;
+	private Queue<Integer> keyQueue = new ConcurrentLinkedQueue<>();
+	private Set<Integer> activeKeys = Collections.synchronizedSet(new HashSet<Integer>());
 	
 	public FrameLEDController(int width,int height) throws IOException {
 		super(width, height);
@@ -39,6 +50,19 @@ public class FrameLEDController extends LEDController {
 		this.frame.pack();
 		this.frame.setVisible(true);
 		this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		this.frame.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (keyQueue.size() < MAX_KEY_BUFFER)	{
+					keyQueue.add(e.getKeyCode());
+				}
+				activeKeys.add(e.getKeyCode());
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				activeKeys.remove(e.getKeyCode());
+			}
+		});
 	}
 	
 	private class DrawingPanel extends JPanel {
@@ -129,6 +153,27 @@ public class FrameLEDController extends LEDController {
 	@Override
 	protected void writeRGB(int[][][] rgb) {
 		this.dp.setState(rgb);
+	}
+	
+	@Override
+	public InputProvider getInputProvider() {
+		return this;
+	}
+	
+	@Override
+	public int getLastKey() {
+		if (!this.keyQueue.isEmpty())	{
+			return this.keyQueue.poll();
+		}
+		return -1;
+	}
+	@Override
+	public boolean hasKey() {
+		return !this.keyQueue.isEmpty();
+	}
+	@Override
+	public boolean getOptionalKeyPressed(int keycode) {
+		return this.activeKeys.contains(keycode);
 	}
 	
 }

@@ -3,6 +3,8 @@ package henning.leddriverj;
 import java.io.Closeable;
 import java.io.IOException;
 
+import henning.leddriverj.input.InputProvider;
+
 public abstract class LEDController implements Closeable {
 	// Implement sync and async controller
 	
@@ -129,5 +131,6 @@ public abstract class LEDController implements Closeable {
 			this.enableColorMods = true;
 		this.useBrigthnessMod = en;
 	}
+	public abstract InputProvider getInputProvider();
 	
 }

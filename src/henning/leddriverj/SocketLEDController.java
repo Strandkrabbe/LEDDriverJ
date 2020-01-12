@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
+import henning.leddriverj.input.InputProvider;
+import henning.leddriverj.input.KeyInputFrame;
 import henning.leddriverj.util.Log;
 
 public class SocketLEDController extends LEDController {
@@ -18,10 +20,12 @@ public class SocketLEDController extends LEDController {
 	private Socket soc;
 	private OutputStream os;
 	private Process py;
+	private KeyInputFrame input;
 	
 	SocketLEDController(int width,int height) throws IOException	{
 		super(width,height);
 		start();
+		this.input = new KeyInputFrame();
 	}
 	private void start() throws IOException	{
 		InputStream i = this.getClass().getResourceAsStream("/henning/leddriverj/py/serialsoc.py");
@@ -95,6 +99,11 @@ public class SocketLEDController extends LEDController {
 			py.destroy();
 			Log.debug("Py not terminated. Forced", "SLED");
 		}
+		try {
+			this.input.close();
+		} catch (IOException e) {
+			Log.warn("Failed to close input provider", "SLED");
+		}
 	}
 	@Override
 	public void clear() {
@@ -113,6 +122,10 @@ public class SocketLEDController extends LEDController {
 			Log.error("Error sending alpha","TR");
 			Log.error(e);
 		}
+	}
+	@Override
+	public InputProvider getInputProvider() {
+		return this.input;
 	}
 	
 }

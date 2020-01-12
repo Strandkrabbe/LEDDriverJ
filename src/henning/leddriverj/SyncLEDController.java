@@ -6,6 +6,8 @@ import com.pi4j.io.serial.Serial;
 import com.pi4j.io.serial.SerialDataEvent;
 import com.pi4j.io.serial.SerialFactory;
 
+import henning.leddriverj.input.InputProvider;
+import henning.leddriverj.input.KeyInputFrame;
 import henning.leddriverj.util.Log;
 
 public class SyncLEDController extends LEDController {
@@ -14,6 +16,7 @@ public class SyncLEDController extends LEDController {
 	private ReturnListener returnListener;
 	private Serial serialDebug;
 	private boolean use_return;
+	private KeyInputFrame input;
 	
 	SyncLEDController(int width,int height) throws IOException	{
 		super(width, height);
@@ -30,6 +33,7 @@ public class SyncLEDController extends LEDController {
 			serialDebug.setBufferingDataReceived(false);
 			serialDebug.addListener(this::debugListener);
 		}
+		this.input = new KeyInputFrame();
 	}
 	private void debugListener(SerialDataEvent ev)	{
 		try {
@@ -126,7 +130,15 @@ public class SyncLEDController extends LEDController {
 				Log.error("Failed to close debug serial", "TR");
 			}
 		}
+		try {
+			this.input.close();
+		} catch (IOException e) {
+			Log.warn("Failed to close InputProvider", "TR");
+		}
 	}
-
+	@Override
+	public InputProvider getInputProvider() {
+		return this.input;
+	}
 	
 }

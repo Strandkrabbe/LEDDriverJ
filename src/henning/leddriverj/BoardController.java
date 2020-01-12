@@ -3,6 +3,7 @@ package henning.leddriverj;
 import java.io.Closeable;
 import java.io.IOException;
 
+import henning.leddriverj.input.InputProvider;
 import henning.leddriverj.util.Log;
 
 public class BoardController implements Closeable {
@@ -113,6 +114,10 @@ public class BoardController implements Closeable {
 	
 	public LEDController getController()	{
 		return this.backend;
+	}
+	
+	public InputProvider getInputProvider()	{
+		return this.backend.getInputProvider();
 	}
 	
 	@Override
