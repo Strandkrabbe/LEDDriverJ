@@ -31,12 +31,13 @@ public class BoardController implements Closeable {
 		this(detect(),width,heigth);
 	}
 	private static Mode detect()	{
-		String os = System.getProperty("os.name").toLowerCase();
-		if (os.contains("win"))	{
-			return Mode.MODE_PY;
-		}	else	{
-			return Mode.MODE_RPI;
-		}
+//		String os = System.getProperty("os.name").toLowerCase();
+//		if (os.contains("win"))	{
+//			return Mode.MODE_PY;
+//		}	else	{
+//			return Mode.MODE_RPI;
+//		}
+		return Mode.MODE_PY;
 	}
 	
 	public void updateBoard()	{
