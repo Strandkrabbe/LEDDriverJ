@@ -15,8 +15,8 @@ public class BoardController implements Closeable {
 		try	{
 			if (m == Mode.MODE_PY)	{
 				backend = new SocketLEDController(width, height);
-			} else if (m == Mode.MODE_RPI)	{
-				backend = new SyncLEDController(width, height);
+//			} else if (m == Mode.MODE_RPI)	{
+//				backend = new SyncLEDController(width, height);
 			} else if (m == Mode.VIRTUAL)	{
 				backend = new FrameLEDController(width,height);
 			} else {
