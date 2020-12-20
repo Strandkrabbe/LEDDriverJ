@@ -55,6 +55,20 @@ public class Image extends BasicDrawable {
 			Log.error("Unable to locate resource " + resource, "Image");
 		}
 	}
+	public void loadRaw(String resource)	{
+		InputStream ios = this.getClass().getResourceAsStream(resource);
+		if (ios != null)
+			try {
+				this.load(ios);
+			} catch (IOException e) {
+				this.rgb = null;
+				Log.error(e);
+			}
+		else	{
+			this.rgb = null;
+			Log.error("Unable to locate resource " + resource, "Image");
+		}
+	}
 	
 	@Override
 	public boolean draw(DrawingArea a) {
