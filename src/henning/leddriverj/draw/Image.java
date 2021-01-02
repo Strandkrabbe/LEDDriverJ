@@ -15,7 +15,7 @@ public class Image extends BasicDrawable {
 	private int[][][] rgb = null;
 	
 	public Image()	{
-		this.setBackgrounColor(null);
+		this.setBackgroundColor(null);
 	}
 	
 	public void load(InputStream i) throws IOException	{
