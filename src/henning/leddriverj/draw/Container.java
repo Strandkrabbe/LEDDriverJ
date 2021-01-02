@@ -3,6 +3,8 @@ package henning.leddriverj.draw;
 import java.util.LinkedList;
 import java.util.List;
 
+import henning.leddriverj.util.ArrayUtils;
+
 public class Container extends BasicDrawable {
 	
 	private List<Drawable> elements;
@@ -37,7 +39,7 @@ public class Container extends BasicDrawable {
 	public synchronized boolean draw(DrawingArea a) {
 		if (!super.draw(a))
 			return false;
-		int[][][] buffer = new int[this.getHeight()][this.getWidth()][3];
+		int[][][] buffer = ArrayUtils.copy3(a.getArea());
 		for (Drawable d : elements)	{
 			DrawingArea ddraw = new DrawingArea(d.getWidth(), d.getHeight());
 			boolean vis = d.draw(ddraw);
