@@ -4,6 +4,7 @@ import java.io.Closeable;
 import java.io.IOException;
 
 import henning.leddriverj.BoardController;
+import henning.leddriverj.Mode;
 import henning.leddriverj.util.Log;
 
 public class RootContainer extends Container implements Closeable {
@@ -12,6 +13,9 @@ public class RootContainer extends Container implements Closeable {
 	
 	public RootContainer(int width,int height) throws IOException	{
 		this.board = new BoardController(width, height);
+	}
+	public RootContainer(Mode m,int width,int height) throws IOException	{
+		this.board = new BoardController(m,width, height);
 	}
 	
 	@Override

@@ -91,6 +91,7 @@ public abstract class LEDController implements Closeable {
 		this.rgb[y][x] = color.clone();
 	}
 	public void setColor(int x,int y,int r,int g,int b)		{
+		this.rgb[y][x] = new int[3];
 		this.rgb[y][x][0] = r;
 		this.rgb[y][x][1] = g;
 		this.rgb[y][x][2] = b;
