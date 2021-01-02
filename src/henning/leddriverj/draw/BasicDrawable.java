@@ -50,7 +50,7 @@ public abstract class BasicDrawable implements Drawable {
 	/**
 	 * If color is null background will be transparent
 	 */
-	public void setBackgrounColor(int[] color)	{
+	public void setBackgroundColor(int[] color)	{
 		this.backgroundColor = color;
 	}
 	
